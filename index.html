@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battery Health Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12 text-blue-600" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/><line x1="4" y1="11" x2="4" y2="13"/></svg>
+            <h1 class="mt-3 text-3xl font-bold text-gray-900">
+                Battery Health Monitor
+            </h1>
+            <p class="mt-2 text-gray-600">
+                Monitor and diagnose your e-vehicle battery health
+            </p>
+        </div>
+
+        <form id="diagnosticForm" class="space-y-8 bg-white p-6 rounded-lg shadow">
+            <div class="space-y-4">
+                <label class="text-lg font-medium text-gray-900">
+                    How long does it typically take to fully charge your battery?
+                </label>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <input type="radio" id="charging-normal" name="charging" value="Less than 3 hours (Normal)" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="charging-normal" class="ml-3 text-gray-700">Less than 3 hours (Normal)</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="charging-longer" name="charging" value="3-5 hours (Slightly Longer)" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="charging-longer" class="ml-3 text-gray-700">3-5 hours (Slightly Longer)</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="charging-much-longer" name="charging" value="More than 5 hours" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="charging-much-longer" class="ml-3 text-gray-700">More than 5 hours</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="charging-none" name="charging" value="Battery won't charge" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="charging-none" class="ml-3 text-gray-700">Battery won't charge at all</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <label class="text-lg font-medium text-gray-900">
+                    Have you noticed a decrease in range per charge?
+                </label>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <input type="radio" id="range-normal" name="range" value="No decrease" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="range-normal" class="ml-3 text-gray-700">No decrease</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="range-slight" name="range" value="Slight decrease" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="range-slight" class="ml-3 text-gray-700">Slight decrease (10-20%)</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="range-significant" name="range" value="Significant decrease" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="range-significant" class="ml-3 text-gray-700">Significant decrease (>30%)</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="range-severe" name="range" value="Severe decrease" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="range-severe" class="ml-3 text-gray-700">Severe decrease (>50%)</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <label class="text-lg font-medium text-gray-900">
+                    How would you describe the vehicle's performance?
+                </label>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <input type="radio" id="performance-normal" name="performance" value="Normal power" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="performance-normal" class="ml-3 text-gray-700">Normal power and acceleration</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="performance-reduced" name="performance" value="Slightly reduced" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="performance-reduced" class="ml-3 text-gray-700">Slightly reduced power</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="performance-significant" name="performance" value="Significant loss" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="performance-significant" class="ml-3 text-gray-700">Significant power loss</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="performance-cutouts" name="performance" value="Power cutouts" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="performance-cutouts" class="ml-3 text-gray-700">Intermittent power cutouts</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <label class="text-lg font-medium text-gray-900">
+                    Are there any physical signs of battery damage?
+                </label>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <input type="radio" id="physical-none" name="physical" value="No issues" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="physical-none" class="ml-3 text-gray-700">No visible issues</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="physical-swelling" name="physical" value="Swelling" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="physical-swelling" class="ml-3 text-gray-700">Swelling or deformation</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="physical-heat" name="physical" value="Heat" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="physical-heat" class="ml-3 text-gray-700">Unusual heat during use/charging</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input type="radio" id="physical-leakage" name="physical" value="Leakage" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                        <label for="physical-leakage" class="ml-3 text-gray-700">Leakage or corrosion</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex space-x-4">
+                <button type="submit" id="submitBtn" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    Generate Diagnosis
+                </button>
+                <button type="button" id="resetBtn" class="flex-1 bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mr-2" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    Reset
+                </button>
+            </div>
+        </form>
+
+        <div id="results" class="mt-8 bg-white p-6 rounded-lg shadow hidden">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-semibold text-gray-900">Diagnosis Results</h2>
+                <div class="flex items-center">
+                    <svg id="severityIcon" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h11a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/><line x1="4" y1="11" x2="4" y2="13"/></svg>
+                    <span id="score" class="ml-2 text-2xl font-bold"></span>
+                </div>
+            </div>
+
+            <div id="summary" class="p-4 rounded-md mb-4"></div>
+
+            <div class="space-y-4">
+                <h3 class="font-medium text-gray-900">Recommendations:</h3>
+                <ul id="recommendations" class="list-disc pl-5 space-y-2"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('diagnosticForm');
+            const results = document.getElementById('results');
+            const resetBtn = document.getElementById('resetBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            const scoreMap = {
+                'Less than 3 hours (Normal)': 25,
+                'No decrease': 25,
+                'Normal power': 25,
+                'No issues': 25
+            };
+
+            function calculateScore() {
+                let score = 0;
+                const answers = {
+                    charging: form.charging.value,
+                    range: form.range.value,
+                    performance: form.performance.value,
+                    physical: form.physical.value
+                };
+
+                Object.values(answers).forEach(answer => {
+                    if (scoreMap[answer]) {
+                        score += scoreMap[answer];
+                    }
+                });
+
+                return score;
+            }
+
+            function getDiagnosis(score) {
+                if (score >= 90) {
+                    return {
+                        summary: 'Battery health is excellent',
+                        recommendations: ['Continue regular maintenance', 'Monitor charging patterns'],
+                        severity: 'good'
+                    };
+                } else if (score >= 60) {
+                    return {
+                        summary: 'Battery showing signs of wear',
+                        recommendations: [
+                            'Schedule a diagnostic check',
+                            'Monitor charging times',
+                            'Consider optimizing usage patterns'
+                        ],
+                        severity: 'warning'
+                    };
+                } else {
+                    return {
+                        summary: 'Battery requires immediate attention',
+                        recommendations: [
+                            'Contact dealer for inspection',
+                            'Avoid deep discharges',
+                            'Consider battery replacement',
+                            'Check charging system'
+                        ],
+                        severity: 'critical'
+                    };
+                }
+            }
+
+            function updateResults(score, diagnosis) {
+                const severityColors = {
+                    critical: 'text-red-500',
+                    warning: 'text-yellow-500',
+                    good: 'text-green-500'
+                };
+
+                const summaryColors = {
+                    critical: 'bg-red-50 text-red-800',
+                    warning: 'bg-yellow-50 text-yellow-800',
+                    good: 'bg-green-50 text-green-800'
+                };
+
+                document.getElementById('score').textContent = `${score}/100`;
+                document.getElementById('severityIcon').className = `w-6 h-6 ${severityColors[diagnosis.severity]}`;
+                document.getElementById('summary').className = `p-4 rounded-md mb-4 ${summaryColors[diagnosis.severity]}`;
+                document.getElementById('summary').textContent = diagnosis.summary;
+
+                const recommendationsList = document.getElementById('recommendations');
+                recommendationsList.innerHTML = '';
+                diagnosis.recommendations.forEach(rec => {
+                    const li = document.createElement('li');
+                    li.className = 'text-gray-600';
+                    li.textContent = rec;
+                    recommendationsList.appendChild(li);
+                });
+
+                results.classList.remove('hidden');
+            }
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const score = calculateScore();
+                const diagnosis = getDiagnosis(score);
+                updateResults(score, diagnosis);
+            });
+
+            resetBtn.addEventListener('click', function() {
+                form.reset();
+                results.classList.add('hidden');
+            });
+
+            // Check if all questions are answered
+            const checkFormValidity = () => {
+                const questions = ['charging', 'range', 'performance', 'physical'];
+                const allAnswered = questions.every(name => {
+                    return form.querySelector(`input[name="${name}"]:checked`);
+                });
+                submitBtn.disabled = !allAnswered;
+            };
+
+            form.querySelectorAll('input[type="radio"]').forEach(radio => {
+                radio.addEventListener('change', checkFormValidity);
+            });
+        });
+    </script>
+</body>
+</html>
